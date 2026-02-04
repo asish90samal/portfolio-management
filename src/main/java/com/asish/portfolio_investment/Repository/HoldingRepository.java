@@ -1,0 +1,13 @@
+package com.asish.portfolio_investment.Repository;
+import com.asish.portfolio_investment.Entity.Holding;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+import java.util.Optional;
+
+public interface HoldingRepository extends JpaRepository<Holding, Long> {
+
+    Optional<Holding> findByPortfolioAndSymbol(Portfolio portfolio, String symbol);
+
+    List<Holding> findByPortfolio(Portfolio portfolio);
+}
