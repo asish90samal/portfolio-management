@@ -12,7 +12,8 @@ public class Holding {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
+    @Column(nullable = false)
+    private String symbol;
 
     @Column(nullable = false)
     private int quantity;
