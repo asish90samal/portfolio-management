@@ -29,18 +29,45 @@ public class PortfolioService {
 
         return portfolioRepository.save(portfolio);
     }
-    @Transactional
-    public void deletePortfolio(Long portfolioId) {
+//    @Transactional
+//    public void deletePortfolio(Long portfolioId) {
+//
+//        Portfolio portfolio = portfolioRepository.findById(portfolioId)
+//                .orElseThrow(() -> new RuntimeException("Portfolio not found"));
+//
+//        if (!portfolio.getHoldings().isEmpty()) {
+//            throw new RuntimeException("Cannot delete portfolio with holdings");
+//        }
+//
+//        portfolioRepository.delete(portfolio);
+//    }
+@Transactional
+public void deletePortfolio(Long portfolioId) {
 
-        Portfolio portfolio = portfolioRepository.findById(portfolioId)
-                .orElseThrow(() -> new RuntimeException("Portfolio not found"));
+    Portfolio portfolio = portfolioRepository.findById(portfolioId)
+            .orElseThrow(() -> new RuntimeException("Portfolio not found"));
 
-        if (!portfolio.getHoldings().isEmpty()) {
-            throw new RuntimeException("Cannot delete portfolio with holdings");
-        }
 
-        portfolioRepository.delete(portfolio);
+    final double EPSILON = 1.0;
+
+    if (portfolio.getCashBalance() > EPSILON) {
+        throw new IllegalStateException("Cannot delete profile with balance.");
     }
+
+
+    boolean hasActiveHoldings = portfolio.getHoldings()
+            .stream()
+            .anyMatch(h -> h.getQuantity() > 0);
+
+    if (hasActiveHoldings) {
+        throw new IllegalStateException("Sell all holdings before deleting profile.");
+    }
+
+    portfolioRepository.delete(portfolio);
+}
+
+
+
 
 
     public Portfolio addFunds(Long portfolioId, double amount) {

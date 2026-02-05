@@ -20,15 +20,15 @@ public class Portfolio {
     @Column(nullable = false)
     private double cashBalance;
 
-    @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonIgnore
     private List<Holding> holdings;
 
-    @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "portfolio", cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonIgnore
     private List<Trade> trades;
 
-    // ===== Getters & Setters =====
+
 
     public Long getId() {
         return id;
