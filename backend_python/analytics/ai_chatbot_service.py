@@ -1,47 +1,47 @@
-import requests
-from analytics.portfolio_health_service import portfolio_health
-from analytics.portfolio_risk_service import portfolio_risk
+def ai_portfolio_chat(question, holdings=None):
+    question = question.lower().strip()
 
+    predefined_answers = {
+        "is my portfolio suitable for long-term investing?":
+            "Yes, your portfolio is suitable for long-term investing as it contains stable large-cap stocks. "
+            "For better long-term growth, you may consider adding ETFs or sector diversification.",
 
-OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL = "phi3"
+        "how diversified is my portfolio?":
+            "Your portfolio shows moderate diversification. Most investments are concentrated in a few sectors. "
+            "Adding stocks from FMCG, Pharma, or Index ETFs can improve diversification.",
 
+        "what is the risk level of my portfolio?":
+            "Your portfolio has a medium risk level. Large-cap stocks reduce volatility, but sector concentration "
+            "can increase risk during market downturns.",
 
-def ai_portfolio_chat(question: str, holdings: list) -> dict:
-    health = portfolio_health(holdings)
-    risk = portfolio_risk(holdings)
+        "should i invest more in this portfolio?":
+            "You may invest more if your goal is long-term wealth creation. However, consider spreading new investments "
+            "across different sectors to reduce risk.",
 
-    prompt = f"""
-You are a professional financial assistant.
+        "suggest a portfolio name":
+            "Balanced Growth Portfolio",
 
-Portfolio health score: {health['healthScore']}
-Annual volatility: {risk['annualVolatility']}%
-Max drawdown: {risk['maxDrawdownPercent']}%
-Value at Risk (95%): {risk['valueAtRisk95Percent']}%
+        "how can i reduce my portfolio risk?":
+            "You can reduce risk by investing in index funds, diversifying across sectors, and avoiding overexposure "
+            "to a single stock.",
 
-User question:
-{question}
+        "what happens if the market crashes?":
+            "In case of a market crash, diversified portfolios tend to recover faster. Holding quality stocks "
+            "and avoiding panic selling is usually recommended."
+    }
 
-Give educational, responsible advice.
-Do NOT give buy/sell commands.
-"""
+    
+    for key in predefined_answers:
+        if key in question:
+            return {
+                "question": question,
+                "answer": predefined_answers[key],
+                "mode": "predefined"
+            }
 
-    response = requests.post(
-        OLLAMA_URL,
-        json={
-            "model": MODEL,
-            "prompt": prompt,
-            "stream": False
-        },
-        timeout=300
-    )
-
-    result = response.json()
-
+ 
     return {
         "question": question,
-        "answer": result.get("response", "").strip(),
-        "healthScore": health["healthScore"],
-        "risk": risk,
-        "llm": "ollama"
+        "answer": "This is a demo chatbot. Please select one of the predefined questions for analysis.",
+        "mode": "fallback"
     }
