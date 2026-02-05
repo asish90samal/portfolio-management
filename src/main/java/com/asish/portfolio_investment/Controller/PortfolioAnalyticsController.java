@@ -17,7 +17,7 @@ import tools.jackson.databind.util.JSONPObject;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/portfolio")
+@RequestMapping("/v1.0/api/portfolio")
 public class PortfolioAnalyticsController {
 
     private final PortfolioAnalyticsService service;

@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/market")
+@RequestMapping("/v1.0/api/market")
 public class MarketController {
 
     @Autowired

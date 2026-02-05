@@ -14,7 +14,7 @@ import com.asish.portfolio_investment.Service.TradeService;
 
 import java.util.List;
 @RestController
-@RequestMapping("/api/portfolios")
+@RequestMapping("/v1.0/api/portfolios")
 public class PortfolioController {
 
     @Autowired

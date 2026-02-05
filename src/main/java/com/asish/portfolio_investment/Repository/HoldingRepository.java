@@ -1,5 +1,6 @@
 package com.asish.portfolio_investment.Repository;
 import com.asish.portfolio_investment.Entity.Holding;
+import com.asish.portfolio_investment.Entity.Portfolio;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
